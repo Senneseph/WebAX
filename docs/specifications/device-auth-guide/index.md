@@ -30,11 +30,11 @@ This guide provides a comprehensive overview of implementing device-based authen
    - Device Activity Monitoring
    - Handling Lost or Compromised Devices
 
-5. [WebAXDN Integration](./05-webaxdn-integration.md)
-   - Setting Up WebAXDN for Device Communication
-   - Implementing Secure Channels
-   - Device Discovery and Connection
-   - Handling Network Interruptions
+5. [Jcule Integration](./05-jcule-integration.md)
+   - Authentication Controller
+   - Permission Management
+   - Settings Interface
+   - Application API
 
 6. [Data Synchronization](./06-data-synchronization.md)
    - Synchronizing Application Data Between Devices
@@ -84,7 +84,7 @@ To follow along with this guide, you should have:
 ## Additional Resources
 
 - [WebAX Device Authentication Specification](../device-authentication.md)
-- [WebAXDN Device Synchronization Specification](../../../../WebAXDN/docs/specifications/device-sync.md)
+- [WebAXD Device Synchronization Specification](../../../../WebAXD/docs/specifications/device-sync.md)
 - [WebAX Security Guidelines](../security-guidelines.md) (coming soon)
 
 ## Feedback and Contributions

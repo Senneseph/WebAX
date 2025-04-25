@@ -1,4 +1,4 @@
-# Concepts and Architecture
+# 1. Concepts and Architecture
 
 ## Understanding Device-Based Authentication
 
@@ -93,7 +93,7 @@ Responsible for:
 - Managing key rotation
 - Providing a consistent API across platforms
 
-### 5. WebAXDN Integration
+### 5. WebAXD Integration
 
 Responsible for:
 - Establishing secure device-to-device communication
@@ -126,7 +126,7 @@ Responsible for:
                    │                              │
                    │                              │
 ┌──────────────────▼──────────────────────────────▼────────────┐
-│                       WebAXDN Layer                           │
+│                       WebAXD Layer                            │
 │                                                               │
 │  ┌──────────────┐  ┌───────────────┐  ┌────────────────────┐ │
 │  │    Channel   │  │  Encryption   │  │   Device Registry  │ │
@@ -147,7 +147,7 @@ Responsible for:
 2. **Pairing New Device**:
    - Owner device generates pairing code
    - New device enters code or scans QR code
-   - Secure channel established via WebAXDN
+   - Secure channel established via WebAXD
    - Owner device verifies and authorizes new device
    - New device receives authentication token
 
@@ -159,7 +159,7 @@ Responsible for:
 
 4. **Synchronization Flow**:
    - Data changes are encrypted and queued for sync
-   - WebAXDN establishes connections between devices
+   - WebAXD establishes connections between devices
    - Changes are securely transmitted
    - Receiving devices decrypt and apply changes
    - Conflicts are detected and resolved
@@ -225,4 +225,4 @@ Device-based authentication addresses several common threats:
 
 ## Next Steps
 
-Now that you understand the concepts and architecture of device-based authentication, you're ready to dive into the implementation details. The next section, [Device Setup Process](./02-device-setup.md), will guide you through the process of implementing the initial device setup flow.
+Now that you understand the concepts and architecture of device-based authentication, you're ready to dive into the implementation details. The next section, [Setting Up Device Authentication](./02-device-setup.md), will guide you through the process of implementing the initial device setup flow.

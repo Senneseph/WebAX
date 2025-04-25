@@ -36,8 +36,8 @@ In the WebAX ecosystem, jcule serves as the central controller for device authen
 │  │ UI       │◄──►│   API      │◄─┼─┼──────────┘            │
 │  └──────────┘    └────────────┘ │ │                         │
 └──────────────────┬──────────────┘ └─────────────────────────┘
-                   │                              
-                   ▼                              
+                   │
+                   ▼
 ┌──────────────────────────────────────────────────────────────┐
 │                  Platform-Specific Layer                      │
 │                                                               │
@@ -77,7 +77,7 @@ export class DeviceAuthController {
   private secureStorage: SecureStorage;
   private permissionManager: PermissionManager;
   private deviceRegistry: DeviceRegistry;
-  
+
   constructor() {
     // Initialize platform-specific implementations
     this.biometricAuth = new BiometricAuth();
@@ -85,7 +85,7 @@ export class DeviceAuthController {
     this.permissionManager = new PermissionManager();
     this.deviceRegistry = new DeviceRegistry(this.secureStorage);
   }
-  
+
   /**
    * Initialize the device authentication system
    */
@@ -93,21 +93,21 @@ export class DeviceAuthController {
     await this.secureStorage.initialize();
     await this.deviceRegistry.initialize();
     await this.permissionManager.initialize();
-    
+
     // Check if device is already set up
     if (!await this.isDeviceSetup()) {
       // First-time setup will be triggered by UI
       console.log('Device not set up. Setup required.');
     }
   }
-  
+
   /**
    * Check if the device is set up for authentication
    */
   async isDeviceSetup(): Promise<boolean> {
     return this.deviceRegistry.isDeviceRegistered();
   }
-  
+
   /**
    * Set up the device for first-time use
    */
@@ -117,21 +117,21 @@ export class DeviceAuthController {
       const authenticated = await this.biometricAuth.authenticate(
         'Authenticate to set up this device'
       );
-      
+
       if (!authenticated) {
         return false;
       }
-      
+
       // Register device
       await this.deviceRegistry.registerDevice(deviceName, true); // true = owner device
-      
+
       return true;
     } catch (error) {
       console.error('Device setup failed:', error);
       return false;
     }
   }
-  
+
   /**
    * Authenticate the user
    */
@@ -141,41 +141,41 @@ export class DeviceAuthController {
       if (!await this.isDeviceSetup()) {
         return false;
       }
-      
+
       // If appId is provided, check if app has permission
       if (appId && !await this.permissionManager.hasPermission(appId, 'authenticate')) {
         return false;
       }
-      
+
       // Authenticate user with biometrics
       const authenticated = await this.biometricAuth.authenticate(
         'Verify your identity'
       );
-      
+
       if (authenticated) {
         // Update last active timestamp
         await this.deviceRegistry.updateDeviceLastActive();
-        
+
         // If appId is provided, log the authentication
         if (appId) {
           await this.deviceRegistry.logActivity(appId, 'authentication');
         }
       }
-      
+
       return authenticated;
     } catch (error) {
       console.error('Authentication failed:', error);
       return false;
     }
   }
-  
+
   /**
    * Get the current device information
    */
   async getCurrentDevice(): Promise<any> {
     return this.deviceRegistry.getCurrentDevice();
   }
-  
+
   /**
    * Check if this is the owner device
    */
@@ -198,22 +198,22 @@ import { SecureStorage } from '../platform/SecureStorage';
 export class PermissionManager {
   private secureStorage: SecureStorage;
   private permissions: Map<string, Set<string>> = new Map();
-  
+
   constructor() {
     this.secureStorage = new SecureStorage();
   }
-  
+
   /**
    * Initialize the permission manager
    */
   async initialize(): Promise<void> {
     // Load permissions from secure storage
     const permissionsData = await this.secureStorage.get('app_permissions');
-    
+
     if (permissionsData) {
       try {
         const parsedPermissions = JSON.parse(permissionsData);
-        
+
         // Convert to Map and Sets
         Object.keys(parsedPermissions).forEach(appId => {
           this.permissions.set(appId, new Set(parsedPermissions[appId]));
@@ -223,7 +223,7 @@ export class PermissionManager {
       }
     }
   }
-  
+
   /**
    * Check if an app has a specific permission
    */
@@ -231,34 +231,34 @@ export class PermissionManager {
     const appPermissions = this.permissions.get(appId);
     return appPermissions?.has(permission) || false;
   }
-  
+
   /**
    * Grant a permission to an app
    */
   async grantPermission(appId: string, permission: string): Promise<void> {
     let appPermissions = this.permissions.get(appId);
-    
+
     if (!appPermissions) {
       appPermissions = new Set();
       this.permissions.set(appId, appPermissions);
     }
-    
+
     appPermissions.add(permission);
     await this.savePermissions();
   }
-  
+
   /**
    * Revoke a permission from an app
    */
   async revokePermission(appId: string, permission: string): Promise<void> {
     const appPermissions = this.permissions.get(appId);
-    
+
     if (appPermissions) {
       appPermissions.delete(permission);
       await this.savePermissions();
     }
   }
-  
+
   /**
    * Get all permissions for an app
    */
@@ -266,18 +266,18 @@ export class PermissionManager {
     const appPermissions = this.permissions.get(appId);
     return appPermissions ? Array.from(appPermissions) : [];
   }
-  
+
   /**
    * Save permissions to secure storage
    */
   private async savePermissions(): Promise<void> {
     // Convert Map and Sets to plain object for storage
     const permissionsObj: Record<string, string[]> = {};
-    
+
     this.permissions.forEach((permissions, appId) => {
       permissionsObj[appId] = Array.from(permissions);
     });
-    
+
     await this.secureStorage.set('app_permissions', JSON.stringify(permissionsObj));
   }
 }
@@ -303,10 +303,10 @@ export class BiometricAuth {
     } else if (this.isAndroid()) {
       return this.isAndroidBiometricsAvailable();
     }
-    
+
     return false;
   }
-  
+
   /**
    * Authenticate the user with biometrics
    */
@@ -319,36 +319,36 @@ export class BiometricAuth {
     } else if (this.isAndroid()) {
       return this.authenticateWithAndroidBiometrics(reason);
     }
-    
+
     return false;
   }
-  
+
   // Platform detection methods
   private isWeb(): boolean {
     return typeof window !== 'undefined' && typeof navigator !== 'undefined' && !this.isNative();
   }
-  
+
   private isIOS(): boolean {
     return this.isNative() && typeof navigator !== 'undefined' && /iPhone|iPad|iPod/.test(navigator.userAgent);
   }
-  
+
   private isAndroid(): boolean {
     return this.isNative() && typeof navigator !== 'undefined' && /Android/.test(navigator.userAgent);
   }
-  
+
   private isNative(): boolean {
     return typeof window !== 'undefined' && 'webkit' in window && 'messageHandlers' in (window as any).webkit;
   }
-  
+
   // Platform-specific implementations
   private async isWebAuthnAvailable(): Promise<boolean> {
-    return typeof navigator.credentials !== 'undefined' && 
+    return typeof navigator.credentials !== 'undefined' &&
            typeof navigator.credentials.get === 'function' &&
            typeof PublicKeyCredential !== 'undefined' &&
            typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable === 'function' &&
            await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
   }
-  
+
   private async isIOSBiometricsAvailable(): Promise<boolean> {
     // Call native bridge
     return new Promise<boolean>(resolve => {
@@ -358,20 +358,20 @@ export class BiometricAuth {
       });
     });
   }
-  
+
   private async isAndroidBiometricsAvailable(): Promise<boolean> {
     // Call native bridge
     return new Promise<boolean>(resolve => {
       (window as any).BiometricAuth.isAvailable((result: boolean) => resolve(result));
     });
   }
-  
+
   private async authenticateWithWebAuthn(reason: string): Promise<boolean> {
     try {
       // Create a challenge
       const challenge = new Uint8Array(32);
       window.crypto.getRandomValues(challenge);
-      
+
       // Request biometric verification
       await navigator.credentials.get({
         publicKey: {
@@ -381,7 +381,7 @@ export class BiometricAuth {
           timeout: 60000 // 1 minute
         }
       });
-      
+
       // If we get here, verification was successful
       return true;
     } catch (error) {
@@ -389,7 +389,7 @@ export class BiometricAuth {
       return false;
     }
   }
-  
+
   private async authenticateWithIOSBiometrics(reason: string): Promise<boolean> {
     // Call native bridge
     return new Promise<boolean>(resolve => {
@@ -400,7 +400,7 @@ export class BiometricAuth {
       });
     });
   }
-  
+
   private async authenticateWithAndroidBiometrics(reason: string): Promise<boolean> {
     // Call native bridge
     return new Promise<boolean>(resolve => {
@@ -425,7 +425,7 @@ export class SecureStorage {
       await this.initializeNativeStorage();
     }
   }
-  
+
   /**
    * Store a value securely
    */
@@ -437,7 +437,7 @@ export class SecureStorage {
       await this.setNativeStorage(key, value);
     }
   }
-  
+
   /**
    * Retrieve a value from secure storage
    */
@@ -448,10 +448,10 @@ export class SecureStorage {
     } else if (this.isNative()) {
       return this.getNativeStorage(key);
     }
-    
+
     return null;
   }
-  
+
   /**
    * Remove a value from secure storage
    */
@@ -463,43 +463,43 @@ export class SecureStorage {
       await this.removeNativeStorage(key);
     }
   }
-  
+
   // Platform detection methods
   private isWeb(): boolean {
     return typeof window !== 'undefined' && typeof navigator !== 'undefined' && !this.isNative();
   }
-  
+
   private isNative(): boolean {
     return typeof window !== 'undefined' && 'webkit' in window && 'messageHandlers' in (window as any).webkit;
   }
-  
+
   // Web implementation using IndexedDB and encryption
   private async initializeWebStorage(): Promise<void> {
     // Initialize IndexedDB
     // Implementation details omitted for brevity
   }
-  
+
   private async setWebStorage(key: string, value: string): Promise<void> {
     // Encrypt and store in IndexedDB
     // Implementation details omitted for brevity
   }
-  
+
   private async getWebStorage(key: string): Promise<string | null> {
     // Retrieve and decrypt from IndexedDB
     // Implementation details omitted for brevity
     return null;
   }
-  
+
   private async removeWebStorage(key: string): Promise<void> {
     // Remove from IndexedDB
     // Implementation details omitted for brevity
   }
-  
+
   // Native implementation using platform-specific secure storage
   private async initializeNativeStorage(): Promise<void> {
     // No initialization needed for native storage
   }
-  
+
   private async setNativeStorage(key: string, value: string): Promise<void> {
     // Call native bridge
     return new Promise<void>(resolve => {
@@ -510,7 +510,7 @@ export class SecureStorage {
       });
     });
   }
-  
+
   private async getNativeStorage(key: string): Promise<string | null> {
     // Call native bridge
     return new Promise<string | null>(resolve => {
@@ -521,7 +521,7 @@ export class SecureStorage {
       });
     });
   }
-  
+
   private async removeNativeStorage(key: string): Promise<void> {
     // Call native bridge
     return new Promise<void>(resolve => {
@@ -546,18 +546,18 @@ import { DeviceAuthController } from '../controllers/DeviceAuthController';
 
 export class AuthAPI {
   private authController: DeviceAuthController;
-  
+
   constructor() {
     this.authController = new DeviceAuthController();
   }
-  
+
   /**
    * Initialize the authentication API
    */
   async initialize(): Promise<void> {
     await this.authController.initialize();
   }
-  
+
   /**
    * Register an application for authentication
    */
@@ -567,26 +567,26 @@ export class AuthAPI {
       console.error('Only the owner device can register apps');
       return false;
     }
-    
+
     // Register the app
     // Implementation details omitted for brevity
     return true;
   }
-  
+
   /**
    * Authenticate the user for an application
    */
   async authenticateForApp(appId: string): Promise<boolean> {
     return this.authController.authenticateUser(appId);
   }
-  
+
   /**
    * Check if the device is set up for authentication
    */
   async isDeviceSetup(): Promise<boolean> {
     return this.authController.isDeviceSetup();
   }
-  
+
   /**
    * Get the current device information
    */
@@ -609,12 +609,12 @@ import { PermissionManager } from '../controllers/PermissionManager';
 export class AuthSettingsUI {
   private authController: DeviceAuthController;
   private permissionManager: PermissionManager;
-  
+
   constructor() {
     this.authController = new DeviceAuthController();
     this.permissionManager = new PermissionManager();
   }
-  
+
   /**
    * Initialize the settings UI
    */
@@ -622,47 +622,47 @@ export class AuthSettingsUI {
     await this.authController.initialize();
     await this.permissionManager.initialize();
   }
-  
+
   /**
    * Render the authentication settings UI
    */
   async render(container: HTMLElement): Promise<void> {
     // Check if device is set up
     const isSetup = await this.authController.isDeviceSetup();
-    
+
     if (!isSetup) {
       this.renderSetupUI(container);
     } else {
       this.renderSettingsUI(container);
     }
   }
-  
+
   /**
    * Render the device setup UI
    */
   private async renderSetupUI(container: HTMLElement): Promise<void> {
     // Implementation details omitted for brevity
   }
-  
+
   /**
    * Render the authentication settings UI
    */
   private async renderSettingsUI(container: HTMLElement): Promise<void> {
     // Get current device
     const device = await this.authController.getCurrentDevice();
-    
+
     // Create settings UI
     const settingsElement = document.createElement('div');
     settingsElement.className = 'auth-settings';
-    
+
     // Device information section
     const deviceSection = document.createElement('div');
     deviceSection.className = 'settings-section';
-    
+
     const deviceTitle = document.createElement('h2');
     deviceTitle.textContent = 'Device Information';
     deviceSection.appendChild(deviceTitle);
-    
+
     const deviceInfo = document.createElement('div');
     deviceInfo.className = 'device-info';
     deviceInfo.innerHTML = `
@@ -684,21 +684,21 @@ export class AuthSettingsUI {
       </div>
     `;
     deviceSection.appendChild(deviceInfo);
-    
+
     // App permissions section
     const appsSection = document.createElement('div');
     appsSection.className = 'settings-section';
-    
+
     const appsTitle = document.createElement('h2');
     appsTitle.textContent = 'App Permissions';
     appsSection.appendChild(appsTitle);
-    
+
     // Implementation details for app permissions UI omitted for brevity
-    
+
     // Add sections to container
     settingsElement.appendChild(deviceSection);
     settingsElement.appendChild(appsSection);
-    
+
     // Clear container and add settings
     container.innerHTML = '';
     container.appendChild(settingsElement);
@@ -716,12 +716,12 @@ WebAX applications integrate with jcule's authentication system through a client
 export class AuthClient {
   private appId: string;
   private appName: string;
-  
+
   constructor(appId: string, appName: string) {
     this.appId = appId;
     this.appName = appName;
   }
-  
+
   /**
    * Initialize the authentication client
    */
@@ -729,7 +729,7 @@ export class AuthClient {
     // Register with jcule
     await this.callJculeAPI('registerApp', { appId: this.appId, appName: this.appName });
   }
-  
+
   /**
    * Authenticate the user
    */
@@ -742,7 +742,7 @@ export class AuthClient {
       return false;
     }
   }
-  
+
   /**
    * Check if the device is set up
    */
@@ -755,7 +755,7 @@ export class AuthClient {
       return false;
     }
   }
-  
+
   /**
    * Call the jcule API
    */
@@ -765,7 +765,7 @@ export class AuthClient {
     if (typeof (window as any).jcule !== 'undefined') {
       return (window as any).jcule.authAPI[method](params);
     }
-    
+
     throw new Error('Jcule API not available');
   }
 }
@@ -782,28 +782,28 @@ import { AuthClient } from 'jcule-client';
 
 class MyApp {
   private authClient: AuthClient;
-  
+
   constructor() {
     // Initialize with app ID and name
     this.authClient = new AuthClient('com.example.myapp', 'My WebAX App');
   }
-  
+
   async initialize() {
     // Initialize authentication client
     await this.authClient.initialize();
-    
+
     // Check if device is set up
     const isDeviceSetup = await this.authClient.isDeviceSetup();
-    
+
     if (!isDeviceSetup) {
       // Redirect to jcule settings for device setup
       this.redirectToJculeSettings();
       return;
     }
-    
+
     // Authenticate user
     const authenticated = await this.authClient.authenticate();
-    
+
     if (authenticated) {
       // User authenticated, proceed with app
       this.showMainApp();
@@ -812,15 +812,15 @@ class MyApp {
       this.showAuthError();
     }
   }
-  
+
   private redirectToJculeSettings() {
     // Implementation details omitted for brevity
   }
-  
+
   private showMainApp() {
     // Implementation details omitted for brevity
   }
-  
+
   private showAuthError() {
     // Implementation details omitted for brevity
   }
@@ -866,4 +866,4 @@ To implement this integration, follow these steps:
 
 ## Next Steps
 
-The next section, [Platform-Specific Implementations](./06-platform-implementations.md), will cover the detailed implementation of biometric authentication and secure storage for different platforms (web, iOS, Android).
+The next section, [Browser-Centric Implementation](./06-browser-implementation.md), will cover the detailed implementation of device-based authentication using a browser-centric approach that works consistently across all platforms.

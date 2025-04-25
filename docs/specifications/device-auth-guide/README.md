@@ -37,11 +37,11 @@ This guide documents the device-based authentication methodology for WebAX appli
    - Settings Interface
    - Application API
 
-6. [Platform-Specific Implementations](./06-platform-implementations.md)
-   - iOS Implementation
-   - Android Implementation
-   - Web Implementation
-   - Cross-Platform Considerations
+6. [Browser-Centric Implementation](./06-browser-implementation.md)
+   - WebAuthn for Authentication
+   - Secure Storage with IndexedDB
+   - WebRTC for Device Communication
+   - Handling Browser Differences
 
 7. [Multi-Device Support](./07-multi-device-support.md)
    - Device Pairing
@@ -76,7 +76,7 @@ For developers implementing device-based authentication in WebAX applications, w
 ## Related Specifications
 
 - [WebAX Device Authentication Specification](../device-authentication.md)
-- [WebAXDN Device Synchronization Specification](../../../../WebAXDN/docs/specifications/device-sync.md)
+- [WebAXD Device Synchronization Specification](../../../../WebAXD/docs/specifications/device-sync.md)
 
 ## Feedback and Contributions
 
