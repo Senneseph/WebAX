@@ -6,7 +6,7 @@ This guide provides a comprehensive overview of implementing device-based authen
 
 ## Table of Contents
 
-1. [Concepts and Architecture](./01-concepts-architecture.md)
+1. [Concepts and Architecture](./01-concepts-and-architecture.md)
    - Understanding Device-Based Authentication
    - Comparison with Traditional Authentication
    - Key Components and Architecture
@@ -25,10 +25,11 @@ This guide provides a comprehensive overview of implementing device-based authen
    - Handling Pairing Errors and Timeouts
 
 4. [Device Management](./04-device-management.md)
-   - Listing and Managing Paired Devices
-   - Revoking Device Access
-   - Device Activity Monitoring
-   - Handling Lost or Compromised Devices
+   - [Device Registry](./04.01-device-registry.md)
+   - [Access Revocation](./04.02-access-revocation.md)
+   - [Device Activity Monitoring](./04.03-device-activity-monitoring.md)
+   - [Lost Device Handling](./04.04-lost-device-handling.md)
+   - [UI Guidelines](./04.05-ui-guidelines.md)
 
 5. [Jcule Integration](./05-jcule-integration.md)
    - Authentication Controller
@@ -36,35 +37,13 @@ This guide provides a comprehensive overview of implementing device-based authen
    - Settings Interface
    - Application API
 
-6. [Data Synchronization](./06-data-synchronization.md)
-   - Synchronizing Application Data Between Devices
-   - Encryption and Security
-   - Conflict Resolution Strategies
-   - Optimizing Synchronization Performance
-
-7. [User Experience Best Practices](./07-ux-best-practices.md)
-   - Designing Intuitive Device Setup Flows
-   - Creating Clear Pairing Instructions
-   - Providing Synchronization Status Feedback
-   - Handling Edge Cases and Error States
-
-8. [Testing and Debugging](./08-testing-debugging.md)
-   - Testing Device Authentication Flows
-   - Debugging Common Issues
-   - Simulating Multiple Devices
-   - Security Testing
-
-9. [Case Studies](./09-case-studies.md)
-   - IMS Prime Implementation
-   - Brave Browser Approach
-   - Other Real-World Examples
-   - Lessons Learned
-
-10. [Reference Implementation](./10-reference-implementation.md)
-    - Complete Code Examples
-    - Component Library
-    - API Reference
-    - Configuration Options
+6. [Browser Implementation](./06-browser-implementation.md)
+7. [Data Syncronization](./07-data-syncrhonization.md)
+8. [Multi-device Support](./08-multi-device-support.md)
+9. [Security Considerations](09-security-considerations.md)
+10. [UX Guidelines](./10-ux-guidelines.md)
+11. [Implementation Examples](./11-implementation-examples.md)
+12. [Case Study: IMS Prime](./12-case-study-ims-prime.md)
 
 ## How to Use This Guide
 
