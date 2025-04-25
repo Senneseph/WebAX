@@ -31,35 +31,35 @@ This guide documents the device-based authentication methodology for WebAX appli
    - [Lost Device Handling](./04.04-lost-device-handling.md)
    - [User Interface Guidelines](./04.05-ui-guidelines.md)
 
-5. [WebAXDN Integration](./05-webaxdn-integration.md)
-   - Secure Communication Channels
-   - Device Discovery
-   - Connection Management
-   - Network Resilience
+5. [Jcule Integration](./05-jcule-integration.md)
+   - Authentication Controller
+   - Permission Management
+   - Settings Interface
+   - Application API
 
-6. [Data Synchronization](./06-data-synchronization.md)
-   - End-to-End Encryption
-   - Conflict Resolution
-   - Offline Support
-   - Synchronization Optimization
+6. [Platform-Specific Implementations](./06-platform-implementations.md)
+   - iOS Implementation
+   - Android Implementation
+   - Web Implementation
+   - Cross-Platform Considerations
 
-7. [Security Considerations](./07-security-considerations.md)
+7. [Multi-Device Support](./07-multi-device-support.md)
+   - Device Pairing
+   - Data Synchronization
+   - Access Management
+   - Recovery Options
+
+8. [Security Best Practices](./08-security-best-practices.md)
    - Threat Model
    - Key Protection
    - Secure Storage
    - Attack Mitigation
 
-8. [User Experience Guidelines](./08-ux-guidelines.md)
-   - Setup Flow Design
-   - Pairing Instructions
-   - Status Feedback
-   - Error Handling
-
-9. [Implementation Examples](./09-implementation-examples.md)
-   - Web Platform Implementation
-   - Mobile Integration
-   - Desktop Applications
-   - Cross-Platform Considerations
+9. [Application Integration Guide](./09-application-integration.md)
+   - Integration Steps
+   - API Reference
+   - Example Implementation
+   - Troubleshooting
 
 10. [Case Study: IMS Prime](./10-case-study-ims-prime.md)
     - Implementation Overview
