@@ -25,10 +25,11 @@ This guide documents the device-based authentication methodology for WebAX appli
    - Device Authorization
 
 4. [Device Management](./04-device-management.md)
-   - Device Registry
-   - Access Revocation
-   - Device Activity Monitoring
-   - Lost Device Handling
+   - [Device Registry](./04.01-device-registry.md)
+   - [Access Revocation](./04.02-access-revocation.md)
+   - [Device Activity Monitoring](./04.03-device-activity-monitoring.md)
+   - [Lost Device Handling](./04.04-lost-device-handling.md)
+   - [User Interface Guidelines](./04.05-ui-guidelines.md)
 
 5. [WebAXDN Integration](./05-webaxdn-integration.md)
    - Secure Communication Channels
