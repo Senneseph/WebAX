@@ -108,13 +108,16 @@ The verification method is a **cold test**: fire up an LLM with an empty context
 
 | Component | Status |
 |---|---|
-| WebAX specifications | Defined (spec-first docs) |
-| jcule (BLC) | Spec-only — implementation starting |
-| jellicule | Being rebuilt as native web components (React bootstrap being removed) |
-| memory-core | Spec/API design only |
-| comlink | Early scaffolding + spec |
-| cyber-eyes | Most complete — has src, core, dist, demo |
-| WebAXP / WebAXD / WebAXDN / WebAXPDN | Spec only — distribution deferred |
+| WebAX specifications | ✅ Defined (spec-first docs) |
+| jcule (BLC) | ✅ Built + tested (muther-brane, UIxAAS, workflow, router, store, bus, sync) |
+| jellicule | ✅ Rebuilt as native web components (34 components) |
+| memory-core | ✅ Built + tested (backends, collections, access policy) |
+| comlink | ❌ Spec only |
+| cyber-eyes | ✅ Most complete — has src, core, dist, demo |
+| WebAXP / WebAXD / WebAXDN / WebAXPDN | 🟡 WebAXP spec; distribution deferred |
+| Reference apps | ✅ pet-store (acceptance), agenda, Cheap-Chess |
+
+> Living record of what's built vs. missing: [STATUS.md](./STATUS.md).
 
 ## Where things live
 
@@ -131,7 +134,14 @@ basic-freedom/    # stdlib
 WebAXP/           # packaging format
 WebAXD/ WebAXDN/ WebAXPDN/   # distribution (deferred)
 jcule-builder/ jelliculegize/ WebAX-Template/  # tooling
+transcribulator/  # library translation to basic-freedom (WASM)
+project-management/  # OpenProject CLI (op) + docker wrapper (dc)
 Cyberdeck-Launcher/ CyberdeckOS/  # launcher + OS shims
+pet-store/        # reference app / acceptance test
+agenda/           # task list + planner + kanban app
+Cheap-Chess/      # chess engine + PWA
 Font-Viewer/ Cyberdeck-Arcade/ Cyberdeck-InterComm/  # apps/demos
 STYLE-GUIDE/      # style guide
 ```
+
+A complete ecosystem table with repo links lives in the [README](../README.md).

@@ -8,7 +8,7 @@ A living record of what's built, what's missing, and what still needs deciding.
 | Layer | Project | Role | State |
 |---|---|---|---|
 | Umbrella + specs | **WebAX** | vision, structure, naming | ✅ docs |
-| UI components | **jellicule** | native `<jel-*>` web components | ✅ 23 components |
+| UI components | **jellicule** | native `<jel-*>` web components | ✅ 34 components |
 | Business logic | **jcule** | BLC (muther-brane), workflow, router, sync | ✅ built + tested |
 | Storage | **memory-core** | unified storage abstraction | ✅ built + tested |
 | Logging | **cyber-eyes** | structured, level-filtered logging | ✅ rebuilt + tested |
