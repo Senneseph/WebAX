@@ -32,8 +32,9 @@ Each WebAX package follows a consistent directory structure:
 │   ├── assets/               # Static assets
 │   └── tests/                # Test files (written here, run by cicda)
 ├── cicda/                    # SICADTDA (CI/CD) configuration
-│   ├── environment/          # Environment configuration for CI/CD
-│   └── tests/                # Test runners and configuration
+│   ├── environment/          # Dockerfile(s) for the build + test container
+│   ├── build/                # CI build scripts (tsconfig.json lives at the repo root)
+│   └── tests/                # Test runner configuration (jest.config.js, setup)
 ├── develop/                  # Optional developer tools
 │   └── environment/          # Environment configuration for development
 ├── dist/                     # Distribution files
@@ -156,18 +157,25 @@ Each WebAX package should have a `package.json` file with the following structur
   "name": "@net.webax/{package-name}",
   "version": "0.1.0",
   "description": "Description of the package",
+  "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
     "dist",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "tsc -p tsconfig.json",
     "test": "jest",
-    "lint": "eslint app/src --ext .ts,.tsx",
+    "lint": "eslint app/src --ext .ts",
     "start": "cd app && docker-compose up"
   },
   "repository": {
@@ -195,47 +203,13 @@ Each WebAX package should have a `package.json` file with the following structur
 
 ## Build Configuration
 
-Each WebAX package should use Rollup for building, with the following configuration:
+Each WebAX package builds with the TypeScript compiler (`tsc`). No bundler is required — components are native web components shipped as ES modules:
 
-```javascript
-// rollup.config.js
-import typescript from 'rollup-plugin-typescript2';
-import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
-
-export default {
-  input: 'app/src/index.ts',
-  output: [
-    {
-      file: pkg.main,
-      format: 'cjs',
-      sourcemap: true
-    },
-    {
-      file: pkg.module,
-      format: 'esm',
-      sourcemap: true
-    },
-    {
-      file: 'dist/index.min.js',
-      format: 'iife',
-      name: pkg.name.replace('@net.webax/', '').replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
-      sourcemap: true,
-      plugins: [terser()]
-    }
-  ],
-  plugins: [
-    typescript({
-      tsconfig: 'tsconfig.json',
-      useTsconfigDeclarationDir: true
-    })
-  ],
-  external: [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {})
-  ]
-};
+```bash
+npm run build   # tsc -p tsconfig.json
 ```
+
+The build emits browser-native ES modules into `dist/` plus `.d.ts` type declarations. Relative imports use explicit `.js` extensions so the output runs directly in the browser with no bundler.
 
 ## TypeScript Configuration
 
@@ -245,20 +219,18 @@ Each WebAX package should use TypeScript with the following configuration:
 // tsconfig.json
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2020",
     "module": "esnext",
+    "moduleResolution": "bundler",
     "lib": ["dom", "esnext"],
     "declaration": true,
     "declarationDir": "dist",
     "sourceMap": true,
     "outDir": "dist",
+    "rootDir": "app/src",
     "strict": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "react",
-    "jsxFactory": "createElement",
-    "jsxFragmentFactory": "Fragment"
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["app/src"],
   "exclude": ["node_modules", "dist", "cicda/tests"]
