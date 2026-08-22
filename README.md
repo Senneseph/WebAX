@@ -55,7 +55,7 @@ currently **private** — links resolve for you and any collaborators you add.)
 | [Cheap-Chess](https://github.com/Senneseph/Cheap-Chess) | Chess engine + PWA (fixed-size search, center-control scoring, exception learning, UCI) | ✅ working |
 | [Font-Viewer](https://github.com/Senneseph/Font-Viewer) | Demo: OS-level tools are easy to build (font browser/previewer) | ✅ demo |
 | [Cyberdeck-Arcade](https://github.com/Senneseph/Cyberdeck-Arcade) | Browser-based emulation platform for classic gaming | 🟡 side project |
-| [Cyberdeck-InterComm](https://github.com/Senneseph/Cyberdeck-InterComm) | Distributed imageboard (WebRTC P2P, PWA) — not active | 🟡 parked |
+| [intercom](https://github.com/Senneseph/intercom) | Communications app: a meta-messaging area where messages from all apps are collected (Google Wave-style) | 🟡 foundation |
 | **Meta** | | |
 | [STYLE-GUIDE](https://github.com/Senneseph/STYLE-GUIDE) | Versioned style guide for promptcraft + project structure | ✅ docs |
 

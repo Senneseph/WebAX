@@ -140,7 +140,7 @@ Cyberdeck-Launcher/ CyberdeckOS/  # launcher + OS shims
 pet-store/        # reference app / acceptance test
 agenda/           # task list + planner + kanban app
 Cheap-Chess/      # chess engine + PWA
-Font-Viewer/ Cyberdeck-Arcade/ Cyberdeck-InterComm/  # apps/demos
+Font-Viewer/ Cyberdeck-Arcade/ intercom/  # apps/demos
 STYLE-GUIDE/      # style guide
 ```
 
